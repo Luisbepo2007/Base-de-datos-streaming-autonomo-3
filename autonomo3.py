@@ -257,7 +257,7 @@ def main():
                     INNER JOIN Género g ON p.gen_id = g.gen_id 
                     INNER JOIN Director d ON p.direc_id = d.direc_id
                     LEFT JOIN Favorito f ON p.peli_id = f.peli_id
-                    GROUP BY p.peli_id, p.peli_nom, p.peli_clas, g.gen_nom, d.direc_nom
+                    GROUP BY p.peli_id, p.peli_nom, p.peli_año, p.peli_dur, p.peli_clas, g.gen_nom, d.direc_nom
                     ORDER BY VecesEnFavoritos DESC 
                     """
                     #LEFT JOIN para incluir películas con 0 favoritos
