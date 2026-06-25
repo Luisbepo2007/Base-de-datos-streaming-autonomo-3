@@ -73,7 +73,7 @@ def main():
                 print("2. Buscar pelicula por nombre")
                 print("3. Buscar pelicula por género")
                 print("4. Buscar pelicula por director")
-                print("5. Buscar pelicula por clasificacion")
+                print("5. Actualizar la clasificación de una pelicula")
                 print("6. Añadir una pelicula a favoritos")
                 print("7. Eliminar pelicula de favoritos")
                 print("8. Mostrar favoritos")
@@ -165,27 +165,18 @@ def main():
                     resultado = ejecutar_consulta(cursor, consulta, (parametro))
                     print(resultado)
                 elif opcion == '5':
-                    clas_buscar = input("Ingresa la clasificacion: ")
-                    
-                    # El operador LIKE busca coincidencias parciales. El comodín % se añade en los parámetros.
-                    consulta = """
-                    SELECT p.peli_id AS ID, 
-                           p.peli_nom AS Título,
-                           p.peli_año AS Año,
-                           p.peli_dur AS Duracción, 
-                           p.peli_clas AS Clasificación, 
-                           g.gen_nom AS Género, 
-                           d.direc_nom AS Director
-                    FROM Pelicula p
-                    INNER JOIN Género g ON p.gen_id = g.gen_id
-                    INNER JOIN Director d ON p.direc_id = d.direc_id
-                    WHERE p.peli_clas LIKE ?
+                    idpelicula = input("Ingrese el ID de la película: ")
+                    nueva_clas = input("Ingrese la nueva clasificación: ")
+
+                    consulta = f"""
+                    UPDATE Pelicula
+                    SET peli_clas = {placeholder}
+                    WHERE peli_id = {placeholder}
                     """
-                    # Pasamos el parámetro envolviendo el texto entre símbolos de porcentaje '%'
-                    parametro = f"%{clas_buscar}%"
-                    
-                    resultado = ejecutar_consulta(cursor, consulta, (parametro,))
-                    print(resultado)
+
+                    cursor.execute(consulta, (nueva_clas, idpelicula))
+                    conexion.commit()
+                    print("Clasificación actualizada correctamente.")
                 elif opcion == '6':
                     try:
                         idusuario = input("ingresa el id del usuario:")
